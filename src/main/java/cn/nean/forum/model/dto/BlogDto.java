@@ -1,5 +1,4 @@
-package cn.nean.forum.model.po;
-
+package cn.nean.forum.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +8,12 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.util.Date;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Blog implements Serializable {
+public class BlogDto implements Serializable {
 
 
     private static final long serialVersionUID = 1L;
@@ -58,6 +58,15 @@ public class Blog implements Serializable {
      */
     private Integer comments;
 
+    /**
+     * 用户名称
+     */
+    private String username;
+
+    /**
+     * 用户是否点过赞
+     */
+    private Boolean isLike;
 
     /**
      * 创建时间
@@ -68,5 +77,4 @@ public class Blog implements Serializable {
      * 更新时间
      */
     private Date updateTime;
-
 }

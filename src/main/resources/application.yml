@@ -1,0 +1,10 @@
+elasticsearch:
+  host: localhost
+  port: 9200
+
+#日志级别、格式
+logging:
+  level:
+    cn.nean: debug
+  pattern:
+    dateformat: MM-dd HH:mm:ss:SSS
