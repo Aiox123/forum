@@ -19,10 +19,10 @@ public class BlogApi {
     public String publishBlog(){
         BlogDto blogDto = BlogDto.builder()
                 .userId(1L)
-                .shopId(10211L)
-                .title("又又喜火锅真滴好吃")
+                .shopId(12201L)
+                .title("半天妖烤鱼新品尝鲜")
                 .images("localhost:8001/images/blogs/11/14/1a23bbe8-c96d-49cd-bdb9-bd98ee44c819.jpg")
-                .content("大家快来吃")
+                .content("大家快来买呀")
                 .liked(0)
                 .comments(0)
                 .build();
