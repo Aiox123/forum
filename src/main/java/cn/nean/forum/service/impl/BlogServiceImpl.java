@@ -10,6 +10,7 @@ import cn.nean.forum.model.dto.BlogDto;
 import cn.nean.forum.model.es.BlogIndexDo;
 import cn.nean.forum.model.po.Blog;
 import cn.nean.forum.service.BlogService;
+import cn.nean.forum.util.RedisIdWorker;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -31,14 +32,16 @@ public class BlogServiceImpl implements BlogService {
     @Resource
     BlogMapper blogMapper;
 
+    @Resource
+    RedisIdWorker redisIdWorker;
+
     /*
-    *  发布朋友圈作品
+    *  发布朋友圈作品 3.8s
     * */
     @Override
     public String publishBlog(BlogDto blogDto) {
-        // 生成 文章ID 4s 贼难受
-        Snowflake snowflake = IdUtil.getSnowflake();
-        long blogId = snowflake.nextId();
+        // 生成 文章ID 2s 贼难受
+        long blogId = redisIdWorker.nextId("blog");
         blogDto.setId(blogId);
         // 先将 dto -> po
         Blog blog = blogConverter.dtoToBlog(blogDto);
@@ -52,12 +55,12 @@ public class BlogServiceImpl implements BlogService {
         // 存入 mysql
         int i = blogMapper.insert(blog);
         if(i > 0){
-           // BlogIndexDo blogIndexDo = blogConverter.toBlogIndexDo(blog);
-            // 添加到 es
-            //blogIndexMapper.save(blogIndexDo);
+            // blog -> indexDo
+            BlogIndexDo blogIndexDo = blogConverter.toBlogIndexDo(blog);
+             //添加到 es
+            blogIndexMapper.save(blogIndexDo);
             return "发布成功!";
         }
-        // blog -> indexDo
         return "发布失败!";
     }
 }

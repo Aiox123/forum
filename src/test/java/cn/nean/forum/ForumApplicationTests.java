@@ -7,6 +7,7 @@ import cn.nean.forum.index.BlogIndexMapper;
 import cn.nean.forum.mapper.BlogMapper;
 import cn.nean.forum.model.es.BlogIndexDo;
 import cn.nean.forum.model.po.Blog;
+import cn.nean.forum.util.RedisIdWorker;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,9 @@ class ForumApplicationTests {
 
     @Resource
     BlogMapper blogMapper;
+
+    @Resource
+    RedisIdWorker redisIdWorker;
 
     /*
     *  创建索引
@@ -55,8 +59,9 @@ class ForumApplicationTests {
 
     @Test
     void TestIdUtil(){
-        Snowflake snowflake = IdUtil.getSnowflake();
-        Blog blog = Blog.builder()
+        long orderId = redisIdWorker.nextId("order");
+        System.out.println(orderId);
+/*        Blog blog = Blog.builder()
                 .id(snowflake.nextId())
                 .userId(1L)
                 .shopId(2L)
@@ -68,7 +73,7 @@ class ForumApplicationTests {
                 .createTime(new Date())
                 .updateTime(new Date())
                 .build();
-        System.out.println(blogMapper.insert(blog));
+        System.out.println(blogMapper.insert(blog));*/
     }
 
 
